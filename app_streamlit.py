@@ -457,32 +457,66 @@ def run_optimization(df_price, params, daily_targets, log_callback=None):
     total_volume = sum(u_sol) * Q_step_ML
     total_hours = sum(u_sol) * time_step_hr
     
-    # Extract schedule
+    # Extract schedule with cost per period
     schedule_summary = []
     is_on = u_sol > 0.5
     start_index = -1
+    
+    def calc_period_cost(start_t, end_t):
+        """Calculate cost for a period"""
+        cost = 0
+        for t in range(start_t, end_t + 1):
+            cost += df_price['Price'].iloc[t] * (P_on / 1000) * time_step_hr
+        return cost
     
     for t in range(T):
         if is_on[t] and (t == 0 or not is_on[t-1]):
             start_index = t
         if not is_on[t] and t > 0 and is_on[t-1]:
             end_index = t - 1
+            duration = (end_index - start_index + 1) * time_step_hr
+            volume = (end_index - start_index + 1) * Q_step_ML
+            cost = calc_period_cost(start_index, end_index)
             schedule_summary.append({
                 "Start Time": df_price['DateTime'].iloc[start_index],
                 "Stop Time": df_price['DateTime'].iloc[t],
-                "Duration (h)": (end_index - start_index + 1) * time_step_hr,
-                "Volume (ML)": (end_index - start_index + 1) * Q_step_ML
+                "Duration (h)": duration,
+                "Volume (ML)": volume,
+                "Cost ($)": cost,
+                "Unit Cost ($/ML)": cost / volume if volume > 0 else 0
             })
             start_index = -1
     
     if start_index != -1:
         end_index = T - 1
+        duration = (end_index - start_index + 1) * time_step_hr
+        volume = (end_index - start_index + 1) * Q_step_ML
+        cost = calc_period_cost(start_index, end_index)
         schedule_summary.append({
             "Start Time": df_price['DateTime'].iloc[start_index],
             "Stop Time": df_price['DateTime'].iloc[end_index] + pd.Timedelta(minutes=time_step_min),
-            "Duration (h)": (end_index - start_index + 1) * time_step_hr,
-            "Volume (ML)": (end_index - start_index + 1) * Q_step_ML
+            "Duration (h)": duration,
+            "Volume (ML)": volume,
+            "Cost ($)": cost,
+            "Unit Cost ($/ML)": cost / volume if volume > 0 else 0
         })
+    
+    # Calculate daily summary
+    daily_summary = {}
+    for date, timesteps in day_mapping.items():
+        day_cost = sum(
+            (df_price['Price'].iloc[t] * (P_on / 1000) * u_sol[t] + 
+             df_price['Price'].iloc[t] * (P_standby / 1000) * (1 - u_sol[t])) * time_step_hr 
+            for t in timesteps
+        )
+        day_volume = sum(u_sol[t] for t in timesteps) * Q_step_ML
+        day_hours = sum(u_sol[t] for t in timesteps) * time_step_hr
+        daily_summary[date] = {
+            'cost': day_cost,
+            'volume': day_volume,
+            'hours': day_hours,
+            'unit_cost': day_cost / day_volume if day_volume > 0 else 0
+        }
     
     # Add pump status to df_price for export
     df_price['Pump_Status'] = ['ON' if u > 0.5 else 'OFF' for u in u_sol]
@@ -491,6 +525,7 @@ def run_optimization(df_price, params, daily_targets, log_callback=None):
         'df_price': df_price,
         'u_sol': u_sol,
         'schedule': schedule_summary,
+        'daily_summary': daily_summary,
         'total_cost': total_cost,
         'total_volume': total_volume,
         'total_hours': total_hours
@@ -663,32 +698,33 @@ def create_schedule_chart(df_price, u_sol, current_time=None):
 # ============== Streamlit Main App ==============
 
 def main():
-    # Header row with title and logos
+    # Header row with title and logos side by side
     import base64
     
-    # Build logo HTML
+    # Title row
+    st.markdown("""
+    <div style="text-align: center; margin-bottom: 10px;">
+        <h1 style="font-size: 2.5rem; font-weight: bold; color: #1f77b4; margin: 0;">🔌 Pump Scheduling Optimizer</h1>
+        <p style="font-size: 1rem; color: #666; margin: 5px 0 15px 0;">Economic Optimization Based on Price Forecasting</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Logos row - centered, larger size
     logo_images = ""
     for fig_name in ["fig1.png", "fig2.png", "fig3.png"]:
         try:
             with open(fig_name, "rb") as f:
                 data = base64.b64encode(f.read()).decode()
-                logo_images += f'<img src="data:image/png;base64,{data}" style="height: 80px; width: auto; margin-left: 10px;" />'
+                logo_images += f'<img src="data:image/png;base64,{data}" style="width: 200px; height: auto; margin: 0 15px;" />'
         except:
             pass
     
-    # Header with title on left/center and logos on right
-    st.markdown(f"""
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <div style="flex: 1;"></div>
-        <div style="text-align: center; flex: 2;">
-            <h1 style="font-size: 2.5rem; font-weight: bold; color: #1f77b4; margin: 0;">🔌 Pump Scheduling Optimizer</h1>
-            <p style="font-size: 1rem; color: #666; margin: 0;">Economic Optimization Based on Price Forecasting</p>
-        </div>
-        <div style="flex: 1; display: flex; justify-content: flex-end; align-items: center;">
+    if logo_images:
+        st.markdown(f"""
+        <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
             {logo_images}
         </div>
-    </div>
-    """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
     
     # Initialize session state
     if 'df_price' not in st.session_state:
@@ -886,21 +922,12 @@ def main():
                         st.session_state.logs = logs
     
     with col2:
-        st.subheader("📈 Optimization Result")
+        st.subheader("📈 Optimization Result & Schedule")
         
         if st.session_state.result is not None:
             result = st.session_state.result
             
-            # Statistics
-            col_a, col_b, col_c = st.columns(3)
-            with col_a:
-                st.metric("Total Cost", f"${result['total_cost']:.2f}")
-            with col_b:
-                st.metric("Total Volume", f"{result['total_volume']:.2f} ML")
-            with col_c:
-                st.metric("Run Time", f"{result['total_hours']:.1f} h")
-            
-            # Chart
+            # Chart first
             fig = create_schedule_chart(
                 result['df_price'],
                 result['u_sol'],
@@ -908,13 +935,55 @@ def main():
             )
             st.plotly_chart(fig, use_container_width=True)
             
-            # Schedule table
-            st.subheader("📅 Schedule Summary")
-            if result['schedule']:
+            # Daily summary with schedules
+            if result['daily_summary'] and result['schedule']:
                 schedule_df = pd.DataFrame(result['schedule'])
-                st.dataframe(schedule_df, use_container_width=True)
-            else:
-                st.info("No pumping scheduled")
+                schedule_df['Date'] = pd.to_datetime(schedule_df['Start Time']).dt.date
+                
+                for date in sorted(result['daily_summary'].keys()):
+                    daily = result['daily_summary'][date]
+                    date_str = date.strftime('%Y-%m-%d (%A)')
+                    
+                    with st.expander(f"📅 {date_str}", expanded=True):
+                        # Daily metrics
+                        m1, m2, m3, m4 = st.columns(4)
+                        with m1:
+                            st.metric("Run Time", f"{daily['hours']:.1f} h")
+                        with m2:
+                            st.metric("Volume", f"{daily['volume']:.2f} ML")
+                        with m3:
+                            st.metric("Cost", f"${daily['cost']:.2f}")
+                        with m4:
+                            st.metric("Unit Cost", f"${daily['unit_cost']:.2f}/ML")
+                        
+                        # Schedule for this day
+                        day_schedule = schedule_df[schedule_df['Date'] == date].copy()
+                        if len(day_schedule) > 0:
+                            # Format for display
+                            display_df = day_schedule[['Start Time', 'Stop Time', 'Duration (h)', 'Volume (ML)', 'Cost ($)', 'Unit Cost ($/ML)']].copy()
+                            display_df['Start Time'] = pd.to_datetime(display_df['Start Time']).dt.strftime('%H:%M')
+                            display_df['Stop Time'] = pd.to_datetime(display_df['Stop Time']).dt.strftime('%H:%M')
+                            display_df['Duration (h)'] = display_df['Duration (h)'].apply(lambda x: f"{x:.1f}")
+                            display_df['Volume (ML)'] = display_df['Volume (ML)'].apply(lambda x: f"{x:.2f}")
+                            display_df['Cost ($)'] = display_df['Cost ($)'].apply(lambda x: f"${x:.2f}")
+                            display_df['Unit Cost ($/ML)'] = display_df['Unit Cost ($/ML)'].apply(lambda x: f"${x:.2f}")
+                            st.dataframe(display_df, use_container_width=True, hide_index=True)
+                        else:
+                            st.info("No pumping scheduled for this day")
+            
+            # Total summary
+            st.divider()
+            st.markdown("**📊 Total Summary**")
+            t1, t2, t3, t4 = st.columns(4)
+            with t1:
+                st.metric("Total Run Time", f"{result['total_hours']:.1f} h")
+            with t2:
+                st.metric("Total Volume", f"{result['total_volume']:.2f} ML")
+            with t3:
+                st.metric("Total Cost", f"${result['total_cost']:.2f}")
+            with t4:
+                unit_cost = result['total_cost'] / result['total_volume'] if result['total_volume'] > 0 else 0
+                st.metric("Avg Unit Cost", f"${unit_cost:.2f}/ML")
             
             # Download buttons
             st.subheader("📥 Download Results")
