@@ -663,43 +663,32 @@ def create_schedule_chart(df_price, u_sol, current_time=None):
 # ============== Streamlit Main App ==============
 
 def main():
-    # Logos in top-right corner using fixed positioning
-    st.markdown("""
-    <style>
-        .logo-container {
-            position: fixed !important;
-            top: 14px !important;
-            right: 60px !important;
-            display: flex !important;
-            gap: 15px !important;
-            z-index: 999999 !important;
-            background: white;
-            padding: 5px 10px;
-            border-radius: 8px;
-        }
-        .logo-container img {
-            height: 60px !important;
-            width: auto !important;
-        }
-    </style>
-    """, unsafe_allow_html=True)
-    
-    # Load and display logos
+    # Header row with title and logos
     import base64
-    logo_html = '<div class="logo-container">'
+    
+    # Build logo HTML
+    logo_images = ""
     for fig_name in ["fig1.png", "fig2.png", "fig3.png"]:
         try:
             with open(fig_name, "rb") as f:
                 data = base64.b64encode(f.read()).decode()
-                logo_html += f'<img src="data:image/png;base64,{data}" />'
+                logo_images += f'<img src="data:image/png;base64,{data}" style="height: 80px; width: auto; margin-left: 10px;" />'
         except:
             pass
-    logo_html += '</div>'
-    st.markdown(logo_html, unsafe_allow_html=True)
     
-    # Centered title
-    st.markdown('<h1 class="main-title">🔌 Pump Scheduling Optimizer</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="subtitle">Economic Optimization Based on Price Forecasting</p>', unsafe_allow_html=True)
+    # Header with title on left/center and logos on right
+    st.markdown(f"""
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div style="flex: 1;"></div>
+        <div style="text-align: center; flex: 2;">
+            <h1 style="font-size: 2.5rem; font-weight: bold; color: #1f77b4; margin: 0;">🔌 Pump Scheduling Optimizer</h1>
+            <p style="font-size: 1rem; color: #666; margin: 0;">Economic Optimization Based on Price Forecasting</p>
+        </div>
+        <div style="flex: 1; display: flex; justify-content: flex-end; align-items: center;">
+            {logo_images}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Initialize session state
     if 'df_price' not in st.session_state:
