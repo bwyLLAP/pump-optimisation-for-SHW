@@ -147,7 +147,13 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
 
     result["df_price"].to_csv(f"{out_dir}/detailed_results.csv", index=False)
+    
     pd.DataFrame(result["schedule"]).to_csv(f"{out_dir}/optimisation_result.csv", index=False)
+    
+    with pd.ExcelWriter(f"{out_dir}/optimisation_result.xlsx", engine="openpyxl") as writer:
+        pd.DataFrame(result["schedule"]).to_excel(writer, sheet_name="Schedule", index=False)
+        result["df_price"].to_excel(writer, sheet_name="Detailed", index=False)
+        
 
     with open(f"{out_dir}/run_logs.txt", "w", encoding="utf-8") as f:
         f.write("\n".join(logs))
