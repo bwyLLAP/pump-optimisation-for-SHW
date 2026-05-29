@@ -1,39 +1,33 @@
-Current time (Sydney): 2026-05-29 20:35:18
+Current time (Sydney): 2026-05-30 00:30:51
 
 [1/2] Fetching latest forecast data...
 Accessing AEMO NEMWEB...
-Found 673 files
-Downloading: PUBLIC_PREDISPATCHIS_202605292100_20260529203205.zip
-Successfully fetched 63 records
-  Latest data range: 2026-05-29 21:00:00 ~ 2026-05-31 04:00:00
+Found 672 files
+Downloading: PUBLIC_PREDISPATCHIS_202605300030_20260530000155.zip
+Successfully fetched 56 records
+  Latest data range: 2026-05-30 00:30:00 ~ 2026-05-31 04:00:00
 
-[2/2] Fetching historical forecast data...
-  Need to fill gap: 2026-05-29 00:00:00 ~ 2026-05-29 20:35:18.487754
-Found 673 files on server
-  Earliest: 2026-05-15 21:00:00
-  Latest: 2026-05-29 21:00:00
-  Looking for file to cover: 2026-05-29 00:00:00 ~ 2026-05-29 20:35:18.487754
-Selected: PUBLIC_PREDISPATCHIS_202605282300_20260528223145.zip
-  Target time: 2026-05-28 23:00:00
-  Forecast covers until: ~2026-05-30 15:00:00
-Fetched 59 records from historical file
-  Time range: 2026-05-28 23:00:00 ~ 2026-05-30 04:00:00
+[2/2] Latest file already covers today's start - skipping historical fetch
 
 Merging data...
-  Combined 59 historical + 63 latest records
 
 ✓ Final data statistics:
-  Historical: 42 records
-  Forecast: 54 records
-  Total: 96 records (48.0 hours)
-  Time range: 2026-05-29 00:00:00 ~ 2026-05-30 23:30:00
-Daily targets (sample): {'2026-05-29': 60.0, '2026-05-30': 45.0}
+  Historical: 1 records
+  Forecast: 55 records
+  Total: 56 records (28.0 hours)
+  Time range: 2026-05-30 00:30:00 ~ 2026-05-31 04:00:00
+
+⚠ Warning: Data coverage (28.0h) is less than expected 48h
+  Optimization will still run with available data
+Daily targets (sample): {'2026-05-30': 60.0, '2026-05-31': 45.0}
 Starting optimization...
 Time interval: 30 minutes
 Total 2 days of data
-Restricted slots: 8
+⚠ Removing 2026-05-31: Only 4.5h data (4.5h usable), need 6.0h minimum
+Removing 1 incomplete day(s) from optimization
+Remaining: 1 day(s), 47 time steps (23.5h)
+Restricted slots: 0
 Building optimization model...
-  2026-05-29: Target = 60.0 ML
-  2026-05-30: Target = 45.0 ML
+  2026-05-30: Target = 60.0 ML
 Solving...
 Solution found!
