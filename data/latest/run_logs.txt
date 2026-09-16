@@ -1,23 +1,23 @@
-Current time (Sydney): 2026-09-15 22:15:30
+Current time (Sydney): 2026-09-16 22:14:28
 
 [1/2] Fetching latest forecast data...
 Accessing AEMO NEMWEB...
 Found 672 files
-Downloading: PUBLIC_PREDISPATCHIS_202609152230_20260915220220.zip
+Downloading: PUBLIC_PREDISPATCHIS_202609162230_20260916220159.zip
 Successfully fetched 60 records
-  Latest data range: 2026-09-15 22:30:00 ~ 2026-09-17 04:00:00
+  Latest data range: 2026-09-16 22:30:00 ~ 2026-09-18 04:00:00
 
 [2/2] Fetching historical forecast data...
-  Need to fill gap: 2026-09-15 00:00:00 ~ 2026-09-15 22:15:30.179424
+  Need to fill gap: 2026-09-16 00:00:00 ~ 2026-09-16 22:14:28.223860
 Found 672 files on server
-  Earliest: 2026-09-01 23:00:00
-  Latest: 2026-09-15 22:30:00
-  Looking for file to cover: 2026-09-15 00:00:00 ~ 2026-09-15 22:15:30.179424
-Selected: PUBLIC_PREDISPATCHIS_202609142300_20260914223231.zip
-  Target time: 2026-09-14 23:00:00
-  Forecast covers until: ~2026-09-16 15:00:00
+  Earliest: 2026-09-02 23:00:00
+  Latest: 2026-09-16 22:30:00
+  Looking for file to cover: 2026-09-16 00:00:00 ~ 2026-09-16 22:14:28.223860
+Selected: PUBLIC_PREDISPATCHIS_202609152300_20260915223220.zip
+  Target time: 2026-09-15 23:00:00
+  Forecast covers until: ~2026-09-17 15:00:00
 Fetched 59 records from historical file
-  Time range: 2026-09-14 23:00:00 ~ 2026-09-16 04:00:00
+  Time range: 2026-09-15 23:00:00 ~ 2026-09-17 04:00:00
 
 Merging data...
   Combined 59 historical + 60 latest records
@@ -26,14 +26,14 @@ Merging data...
   Historical: 45 records
   Forecast: 51 records
   Total: 96 records (48.0 hours)
-  Time range: 2026-09-15 00:00:00 ~ 2026-09-16 23:30:00
-Daily targets (sample): {'2026-09-15': 60.0, '2026-09-16': 45.0}
+  Time range: 2026-09-16 00:00:00 ~ 2026-09-17 23:30:00
+Daily targets (sample): {'2026-09-16': 60.0, '2026-09-17': 45.0}
 Starting optimization...
 Time interval: 30 minutes
 Total 2 days of data
 Restricted slots: 16
 Building optimization model...
-  2026-09-15: Target = 60.0 ML
-  2026-09-16: Target = 45.0 ML
+  2026-09-16: Target = 60.0 ML
+  2026-09-17: Target = 45.0 ML
 Solving...
 Solution found!
