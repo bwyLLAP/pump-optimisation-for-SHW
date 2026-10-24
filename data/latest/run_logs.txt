@@ -1,39 +1,33 @@
-Current time (Sydney): 2026-10-24 22:40:54
+Current time (Sydney): 2026-10-25 01:55:41
 
 [1/2] Fetching latest forecast data...
 Accessing AEMO NEMWEB...
 Found 672 files
-Downloading: PUBLIC_PREDISPATCHIS_202610242200_20261024213146.zip
-Successfully fetched 61 records
-  Latest data range: 2026-10-24 22:00:00 ~ 2026-10-26 04:00:00
+Downloading: PUBLIC_PREDISPATCHIS_202610250100_20261025003143.zip
+Successfully fetched 55 records
+  Latest data range: 2026-10-25 01:00:00 ~ 2026-10-26 04:00:00
 
-[2/2] Fetching historical forecast data...
-  Need to fill gap: 2026-10-24 00:00:00 ~ 2026-10-24 22:40:54.826176
-Found 672 files on server
-  Earliest: 2026-10-10 22:30:00
-  Latest: 2026-10-24 22:00:00
-  Looking for file to cover: 2026-10-24 00:00:00 ~ 2026-10-24 22:40:54.826176
-Selected: PUBLIC_PREDISPATCHIS_202610232300_20261023223140.zip
-  Target time: 2026-10-23 23:00:00
-  Forecast covers until: ~2026-10-25 15:00:00
-Fetched 59 records from historical file
-  Time range: 2026-10-23 23:00:00 ~ 2026-10-25 04:00:00
+[2/2] Latest file already covers today's start - skipping historical fetch
 
 Merging data...
-  Combined 59 historical + 61 latest records
 
 ✓ Final data statistics:
-  Historical: 46 records
-  Forecast: 50 records
-  Total: 96 records (48.0 hours)
-  Time range: 2026-10-24 00:00:00 ~ 2026-10-25 23:30:00
-Daily targets (sample): {'2026-10-24': 60.0, '2026-10-25': 45.0}
+  Historical: 2 records
+  Forecast: 53 records
+  Total: 55 records (27.5 hours)
+  Time range: 2026-10-25 01:00:00 ~ 2026-10-26 04:00:00
+
+⚠ Warning: Data coverage (27.5h) is less than expected 48h
+  Optimization will still run with available data
+Daily targets (sample): {'2026-10-25': 60.0, '2026-10-26': 45.0}
 Starting optimization...
 Time interval: 30 minutes
 Total 2 days of data
+⚠ Removing 2026-10-26: Only 4.5h data (4.5h usable), need 6.0h minimum
+Removing 1 incomplete day(s) from optimization
+Remaining: 1 day(s), 46 time steps (23.0h)
 Restricted slots: 0
 Building optimization model...
-  2026-10-24: Target = 60.0 ML
-  2026-10-25: Target = 45.0 ML
+  2026-10-25: Target = 60.0 ML
 Solving...
 Solution found!
