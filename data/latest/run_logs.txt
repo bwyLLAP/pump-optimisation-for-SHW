@@ -1,11 +1,11 @@
-Current time (Sydney): 2026-10-29 00:36:57
+Current time (Sydney): 2026-10-30 00:46:18
 
 [1/2] Fetching latest forecast data...
 Accessing AEMO NEMWEB...
 Found 672 files
-Downloading: PUBLIC_PREDISPATCHIS_202610290000_20261028233206.zip
+Downloading: PUBLIC_PREDISPATCHIS_202610300000_20261029233156.zip
 Successfully fetched 57 records
-  Latest data range: 2026-10-29 00:00:00 ~ 2026-10-30 04:00:00
+  Latest data range: 2026-10-30 00:00:00 ~ 2026-10-31 04:00:00
 
 [2/2] Latest file already covers today's start - skipping historical fetch
 
@@ -15,19 +15,19 @@ Merging data...
   Historical: 2 records
   Forecast: 55 records
   Total: 57 records (28.5 hours)
-  Time range: 2026-10-29 00:00:00 ~ 2026-10-30 04:00:00
+  Time range: 2026-10-30 00:00:00 ~ 2026-10-31 04:00:00
 
 ⚠ Warning: Data coverage (28.5h) is less than expected 48h
   Optimization will still run with available data
-Daily targets (sample): {'2026-10-29': 60.0, '2026-10-30': 45.0}
+Daily targets (sample): {'2026-10-30': 60.0, '2026-10-31': 45.0}
 Starting optimization...
 Time interval: 30 minutes
 Total 2 days of data
-⚠ Removing 2026-10-30: Only 4.5h data (4.5h usable), need 6.0h minimum
+⚠ Removing 2026-10-31: Only 4.5h data (4.5h usable), need 6.0h minimum
 Removing 1 incomplete day(s) from optimization
 Remaining: 1 day(s), 48 time steps (24.0h)
 Restricted slots: 8
 Building optimization model...
-  2026-10-29: Target = 60.0 ML
+  2026-10-30: Target = 60.0 ML
 Solving...
 Solution found!
