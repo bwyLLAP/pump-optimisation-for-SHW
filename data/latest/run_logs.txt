@@ -1,44 +1,44 @@
-Current time (Sydney): 2026-11-18 03:30:40
+Current time (Sydney): 2026-11-19 02:59:59
 
 [1/2] Fetching latest forecast data...
 Accessing AEMO NEMWEB...
 Found 671 files
-Downloading: PUBLIC_PREDISPATCHIS_202611180230_20261118020131.zip
-Successfully fetched 52 records
-  Latest data range: 2026-11-18 02:30:00 ~ 2026-11-19 04:00:00
+Downloading: PUBLIC_PREDISPATCHIS_202611190200_20261119013135.zip
+Successfully fetched 53 records
+  Latest data range: 2026-11-19 02:00:00 ~ 2026-11-20 04:00:00
 
 [2/2] Fetching historical forecast data...
-  Need to fill gap: 2026-11-18 00:00:00 ~ 2026-11-18 03:30:40.405543
+  Need to fill gap: 2026-11-19 00:00:00 ~ 2026-11-19 02:59:59.781339
 Found 671 files on server
-  Earliest: 2026-11-04 03:00:00
-  Latest: 2026-11-18 02:30:00
-  Looking for file to cover: 2026-11-18 00:00:00 ~ 2026-11-18 03:30:40.405543
-Selected: PUBLIC_PREDISPATCHIS_202611172300_20261117223144.zip
-  Target time: 2026-11-17 23:00:00
-  Forecast covers until: ~2026-11-19 15:00:00
+  Earliest: 2026-11-05 02:30:00
+  Latest: 2026-11-19 02:00:00
+  Looking for file to cover: 2026-11-19 00:00:00 ~ 2026-11-19 02:59:59.781339
+Selected: PUBLIC_PREDISPATCHIS_202611182300_20261118223149.zip
+  Target time: 2026-11-18 23:00:00
+  Forecast covers until: ~2026-11-20 15:00:00
 Fetched 59 records from historical file
-  Time range: 2026-11-17 23:00:00 ~ 2026-11-19 04:00:00
+  Time range: 2026-11-18 23:00:00 ~ 2026-11-20 04:00:00
 
 Merging data...
-  Combined 59 historical + 52 latest records
+  Combined 59 historical + 53 latest records
 
 ✓ Final data statistics:
-  Historical: 8 records
-  Forecast: 49 records
+  Historical: 6 records
+  Forecast: 51 records
   Total: 57 records (28.5 hours)
-  Time range: 2026-11-18 00:00:00 ~ 2026-11-19 04:00:00
+  Time range: 2026-11-19 00:00:00 ~ 2026-11-20 04:00:00
 
 ⚠ Warning: Data coverage (28.5h) is less than expected 48h
   Optimization will still run with available data
-Daily targets (sample): {'2026-11-18': 60.0, '2026-11-19': 45.0}
+Daily targets (sample): {'2026-11-19': 60.0, '2026-11-20': 45.0}
 Starting optimization...
 Time interval: 30 minutes
 Total 2 days of data
-⚠ Removing 2026-11-19: Only 4.5h data (4.5h usable), need 6.0h minimum
+⚠ Removing 2026-11-20: Only 4.5h data (4.5h usable), need 6.0h minimum
 Removing 1 incomplete day(s) from optimization
 Remaining: 1 day(s), 48 time steps (24.0h)
 Restricted slots: 8
 Building optimization model...
-  2026-11-18: Target = 60.0 ML
+  2026-11-19: Target = 60.0 ML
 Solving...
 Solution found!
