@@ -1,39 +1,39 @@
-Current time (Sydney): 2026-11-23 22:37:49
+Current time (Sydney): 2026-11-24 15:09:05
 
 [1/2] Fetching latest forecast data...
 Accessing AEMO NEMWEB...
 Found 671 files
-Downloading: PUBLIC_PREDISPATCHIS_202611232200_20261123213152.zip
-Successfully fetched 61 records
-  Latest data range: 2026-11-23 22:00:00 ~ 2026-11-25 04:00:00
+Downloading: PUBLIC_PREDISPATCHIS_202611241430_20261124140203.zip
+Successfully fetched 76 records
+  Latest data range: 2026-11-24 14:30:00 ~ 2026-11-26 04:00:00
 
 [2/2] Fetching historical forecast data...
-  Need to fill gap: 2026-11-23 00:00:00 ~ 2026-11-23 22:37:49.668771
+  Need to fill gap: 2026-11-24 00:00:00 ~ 2026-11-24 15:09:05.017648
 Found 671 files on server
-  Earliest: 2026-11-09 22:30:00
-  Latest: 2026-11-23 22:00:00
-  Looking for file to cover: 2026-11-23 00:00:00 ~ 2026-11-23 22:37:49.668771
-Selected: PUBLIC_PREDISPATCHIS_202611222300_20261122223157.zip
-  Target time: 2026-11-22 23:00:00
-  Forecast covers until: ~2026-11-24 15:00:00
+  Earliest: 2026-11-10 15:00:00
+  Latest: 2026-11-24 14:30:00
+  Looking for file to cover: 2026-11-24 00:00:00 ~ 2026-11-24 15:09:05.017648
+Selected: PUBLIC_PREDISPATCHIS_202611232300_20261123223148.zip
+  Target time: 2026-11-23 23:00:00
+  Forecast covers until: ~2026-11-25 15:00:00
 Fetched 59 records from historical file
-  Time range: 2026-11-22 23:00:00 ~ 2026-11-24 04:00:00
+  Time range: 2026-11-23 23:00:00 ~ 2026-11-25 04:00:00
 
 Merging data...
-  Combined 59 historical + 61 latest records
+  Combined 59 historical + 76 latest records
 
 ✓ Final data statistics:
-  Historical: 46 records
-  Forecast: 50 records
+  Historical: 31 records
+  Forecast: 65 records
   Total: 96 records (48.0 hours)
-  Time range: 2026-11-23 00:00:00 ~ 2026-11-24 23:30:00
-Daily targets (sample): {'2026-11-23': 40.0, '2026-11-24': 40.0}
+  Time range: 2026-11-24 00:00:00 ~ 2026-11-25 23:30:00
+Daily targets (sample): {'2026-11-24': 40.0, '2026-11-25': 40.0}
 Starting optimization...
 Time interval: 30 minutes
 Total 2 days of data
 Restricted slots: 16
 Building optimization model...
-  2026-11-23: Target = 40.0 ML
   2026-11-24: Target = 40.0 ML
+  2026-11-25: Target = 40.0 ML
 Solving...
 Solution found!
